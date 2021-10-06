@@ -3,11 +3,16 @@
  */
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Login from "./components/pages/Login.vue";
+import Chat from "./components/pages/Chat.vue";
 
 
 Vue.use(VueRouter);
 
-const routes = [];
+const routes = [
+	{ path: '/', component: Login },
+	{ path: '/chat', component: Chat }
+];
 
 const router = new VueRouter({
 	routes // short for `routes: routes`
