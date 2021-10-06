@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page">
+  <div class="page login-page">
     <figure class="login-page__logo">
       <img :src="logo" class="img-fluid" alt="Responsive image">
     </figure>

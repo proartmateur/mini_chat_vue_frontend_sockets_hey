@@ -1,20 +1,31 @@
 <template>
-  <div>
-    <h1>Chat</h1>
-    <template v-if="enable_chat">
-      <p>chateando...</p>
-    </template>
-    <p v-else>Debes iniciar sesion para participar!</p>
+  <div class="page chat-page">
+    <Nav></Nav>
+    <ChatMessagesView></ChatMessagesView>
+    <ChatUserInputs>
+    </ChatUserInputs>
+<!--    <template v-if="enable_chat">-->
+<!--      <p>chateando...</p>-->
+<!--    </template>-->
+<!--    <p v-else>Debes iniciar sesion para participar!</p>-->
   </div>
 
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from "vuex";
 import store from "../../store";
+import Nav from "../layout/Nav.vue";
+import ChatMessagesView from "../ChatMessagesView.vue";
+import ChatUserInputs from "../ChatUserInputs.vue";
 
 export default {
   name: "Chat",
+  components: {
+    Nav,
+    ChatMessagesView,
+    ChatUserInputs
+  },
   store,
   mounted() {
     if (!this.$store.getters.getUserName) {
@@ -22,8 +33,8 @@ export default {
     }
   },
   computed: {
-     ...mapGetters([
-      'getUserName',
+    ...mapGetters([
+      "getUserName",
     ]),
     enable_chat: function () {
       if (!this.getUserName) {
