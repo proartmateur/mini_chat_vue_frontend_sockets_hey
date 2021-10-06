@@ -75,7 +75,7 @@ export default {
     saveName: function (e) {
       e.preventDefault();
       console.log(e);
-      store.commit("setUserName", this.user_name);
+      store.commit("setUserName", this.form.user_name);
       router.push("chat");
     }
   }
