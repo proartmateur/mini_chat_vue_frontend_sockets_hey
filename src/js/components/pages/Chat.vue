@@ -1,13 +1,17 @@
 <template>
   <div class="page chat-page">
     <Nav></Nav>
-    <ChatMessagesView></ChatMessagesView>
-    <ChatUserInputs>
+    <ChatMessagesView
+    :messages="messages"
+    ></ChatMessagesView>
+    <ChatUserInputs
+        @sendMessage="onEmitMessage"
+    >
     </ChatUserInputs>
-<!--    <template v-if="enable_chat">-->
-<!--      <p>chateando...</p>-->
-<!--    </template>-->
-<!--    <p v-else>Debes iniciar sesion para participar!</p>-->
+    <!--    <template v-if="enable_chat">-->
+    <!--      <p>chateando...</p>-->
+    <!--    </template>-->
+    <!--    <p v-else>Debes iniciar sesion para participar!</p>-->
   </div>
 
 </template>
@@ -26,6 +30,11 @@ export default {
     ChatMessagesView,
     ChatUserInputs
   },
+  data: function (){
+    return {
+      messages: []
+    }
+  },
   store,
   mounted() {
     if (!this.$store.getters.getUserName) {
@@ -41,6 +50,12 @@ export default {
         return false;
       }
       return true;
+    }
+  },
+  methods: {
+    onEmitMessage: function (e) {
+      console.log(e);
+      this.messages.push(e)
     }
   }
 };

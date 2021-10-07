@@ -45,6 +45,7 @@
     "bootstrap-vue": "^2.21.2",
     "dayjs": "^1.10.6",
     "immutable": "^4.0.0-rc.14",
+    "uuid": "^8.3.2",
     "vue": "^2.6.14",
     "vue-router": "^3.5.2",
     "vuelidate": "^0.7.6",

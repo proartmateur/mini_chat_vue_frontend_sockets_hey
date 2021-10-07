@@ -8,6 +8,7 @@
       <div>
         <label for="user_name" class="form-label">Nombre de usuario:</label>
         <input
+            @keyup.enter="saveName"
             v-model="$v.form.user_name.$model"
             type="text"
             class="form-control"
