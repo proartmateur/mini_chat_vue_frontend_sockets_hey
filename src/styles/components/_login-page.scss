@@ -22,13 +22,14 @@
   }
 
   .chat-messages-view {
-    border: 1px solid red;
+    //border: 1px solid red;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
     width: 100%;
     height: 100%;
     flex-grow: 1;
+    padding: 24px 0px 0px 0px;
   }
 
   .chat-user-inputs {
