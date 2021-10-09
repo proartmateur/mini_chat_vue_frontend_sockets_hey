@@ -1,39 +1,27 @@
 <template>
   <div id="chat-messages-view" class="chat-messages-view">
     <template v-for="message in messages">
+      <ChatMessageBubble
+          type="out"
+          :title="message.user"
+          :content="message.content"
+          :time="message.time"
+      ></ChatMessageBubble>
 
-      <!--      <b>{{ message.type }}</b>-->
-      <div class="message message--out">
-        <div class="message__title">
-
-          <p>{{ message.user || "Me" }}</p>
-        </div>
-        <div class="message__content">
-          <p>{{ message.content }}</p>
-        </div>
-        <div class="message__time">
-          <p>{{ message.time }}</p>
-        </div>
-      </div>
-
-      <div class="message message--in">
-        <div class="message__title">
-
-          <p>{{ message.user || "Me" }}</p>
-        </div>
-        <div class="message__content">
-          <p>{{ message.content }}</p>
-        </div>
-        <div class="message__time">
-          <p>{{ message.time }}</p>
-        </div>
-      </div>
+      <ChatMessageBubble
+          type="in"
+          :title="message.user"
+          :content="message.content"
+          :time="message.time"
+      ></ChatMessageBubble>
 
     </template>
   </div>
 </template>
 
 <script>
+
+import ChatMessageBubble from "./ChatMessageBubble.vue";
 
 function scrollToBottom(id) {
   var div = document.getElementById(id);
@@ -42,6 +30,9 @@ function scrollToBottom(id) {
 
 export default {
   name: "ChatMessagesView",
+  components: {
+    ChatMessageBubble
+  },
   props: {
     messages: Array
   },
