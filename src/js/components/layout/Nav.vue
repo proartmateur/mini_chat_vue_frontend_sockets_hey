@@ -69,13 +69,16 @@ export default {
   methods: {
     showSearchForm: function (e) {
       this.is_search = true;
-      setTimeout(()=>{
+      setTimeout(() => {
 
         this.$refs["text-input"].focus();
-      },100)
+      }, 100);
     },
     hideSearchForm: function (e) {
       this.is_search = false;
+      this.cleanSearchQuery(e);
+    },
+    cleanSearchQuery: function (e) {
       this.search_query = null;
     },
     findMessage: function (e) {
