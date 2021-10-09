@@ -1,20 +1,27 @@
 <template>
   <nav class="navbar navbar navbar-dark bg-hey-gradient">
     <div class="container-fluid">
-      <a class="navbar-brand logo-container" href="#">
+      <a class="navbar-brand logo-container">
         <img :src="logo" alt="" width="30" height="24">
       </a>
 
       <template v-if="is_search">
-        <form class="form-search" >
+        <form class="form-search">
 
-          <span class="navbar-text form-icon search-icon">
+          <span
+              @click="searchIconClick"
+              class="navbar-text form-icon search-icon">
               <img :src="icons.search" alt="click aquí para buscar">
           </span>
 
-          <input class="form-search__text-input"
-                 placeholder="Algo que buscar…"
-                 type="text">
+          <input
+              @keyup.enter="findMessage"
+              @keyup.esc="hideSearchForm"
+              v-model="search_query"
+              ref="text-input"
+              class="form-search__text-input"
+              placeholder="Algo que buscar…"
+              type="text">
 
           <span
               @click="hideSearchForm"
@@ -55,15 +62,33 @@ export default {
         close: close_icon,
         search: search_icon
       },
-      is_search: false
+      is_search: false,
+      search_query: null
     };
   },
   methods: {
     showSearchForm: function (e) {
-      this.is_search = true
+      this.is_search = true;
+      setTimeout(()=>{
+
+        this.$refs["text-input"].focus();
+      },100)
     },
     hideSearchForm: function (e) {
-      this.is_search = false
+      this.is_search = false;
+      this.search_query = null;
+    },
+    findMessage: function (e) {
+      this.$emit("findMessage", {
+        search_query: this.search_query
+      });
+    },
+    searchIconClick: function (e) {
+      if (!this.search_query) {
+        this.$refs["text-input"].focus();
+      } else {
+        this.findMessage(e);
+      }
     }
   }
 };

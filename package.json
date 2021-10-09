@@ -44,6 +44,7 @@
     "bootstrap": "^5.1.0",
     "bootstrap-vue": "^2.21.2",
     "dayjs": "^1.10.6",
+    "gsap": "^3.8.0",
     "immutable": "^4.0.0-rc.14",
     "uuid": "^8.3.2",
     "vue": "^2.6.14",

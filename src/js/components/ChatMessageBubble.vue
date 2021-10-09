@@ -1,5 +1,5 @@
 <template>
-  <div :class="bubble_class">
+  <div :id="id" :class="bubble_class">
     <div class="message__title">
 
       <p>{{ title || "Me" }}</p>
@@ -39,7 +39,8 @@ export default {
     },
     title: String,
     content: String,
-    time: String
+    time: String,
+    id: String
   }
 };
 </script>

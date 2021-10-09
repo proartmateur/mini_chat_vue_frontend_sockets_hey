@@ -62,22 +62,23 @@ export class MessageFakeRepository {
 	}
 
 	async add(message) {
-		console.group("MessageFakeRepository: add()")
-		console.log("adding...")
-		console.log(message)
-		console.groupEnd()
+		console.group("MessageFakeRepository: add()");
+		console.log("adding...");
+		console.log(message);
+		console.groupEnd();
 		this.#items.push({...message});
 	}
 
 	async list() {
-		console.group("MessageFakeRepository: list()")
-		console.log("Listing...")
-		console.groupEnd()
+		console.group("MessageFakeRepository: list()");
+		console.log("Listing...");
+		console.groupEnd();
 		return [...this.#items];
 	}
 
 	async find(text) {
-		return this.#items.filter(x => x.content.includes(text));
+		return this.#items.filter(x => x.content
+			.toUpperCase().includes(text.toUpperCase()));
 	}
 
 }

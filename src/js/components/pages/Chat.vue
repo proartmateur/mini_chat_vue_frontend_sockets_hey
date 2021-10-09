@@ -1,8 +1,11 @@
 <template>
   <div class="page chat-page">
-    <Nav></Nav>
+    <Nav
+        @findMessage="onFindMessage"
+    ></Nav>
     <ChatMessagesView
-    :messages="messages"
+        ref="chat-view"
+        :messages="messages"
     ></ChatMessagesView>
     <ChatUserInputs
         @sendMessage="onEmitMessage"
@@ -34,18 +37,18 @@ export default {
     ChatMessagesView,
     ChatUserInputs
   },
-  data: function (){
+  data: function () {
     return {
       messages: []
-    }
+    };
   },
   store,
-  async created(){
-    console.log("CHAT: Created()")
-    this.messages = await repo.list()
+  async created() {
+    console.log("CHAT: Created()");
+    this.messages = await repo.list();
   },
   async mounted() {
-    console.log("CHAT: Mounted()")
+    console.log("CHAT: Mounted()");
     if (!this.$store.getters.getUserName) {
 
     }
@@ -66,8 +69,22 @@ export default {
     onEmitMessage: async function (e) {
       //console.log(e);
       //this.messages.push(e)
-      await repo.add(e)
-      this.messages = await repo.list()
+      await repo.add(e);
+      this.messages = await repo.list();
+    },
+    onFindMessage: async function (e) {
+      const {search_query} = e;
+      const results = await repo.find(search_query);
+      if (results.length > 0) {
+        const bubble = results[results.length - 1]
+        this.$refs["chat-view"].goToBubble(bubble)
+      }
+
+      console.group("onFindMessage");
+      console.log(e);
+      console.log("--------");
+      console.log(results);
+      console.groupEnd();
     }
   }
 };
