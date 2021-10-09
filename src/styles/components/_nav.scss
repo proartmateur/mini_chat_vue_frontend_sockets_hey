@@ -4,4 +4,72 @@
   background: linear-gradient(0deg, rgba(7, 53, 183, 1) 0%, rgba(34, 86, 240, 1) 100%);
 }
 
+.form-search {
+  //border: 1px dotted red;
+  display: flex;
+  flex-grow: 1;
+  min-width: 50%;
+  min-height: 48px;
 
+  &__text-input {
+    border: none;
+
+    background: transparent;
+    flex-grow: 1;
+
+    color: $white;
+    font-size: 20px;
+    font-weight: 400;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    &:focus {
+      border: none;
+      border-bottom: 1px solid $white;
+    }
+
+    &:focus-visible {
+      border: none;
+      border-bottom: 1px solid $white;
+      outline: none;
+    }
+  }
+
+}
+
+.logo-container {
+  //border: 1px dotted blueviolet;
+  display: flex;
+  padding-left: 5px;
+}
+
+.form-icon {
+  display: flex;
+  width: 25px;
+  height: auto;
+  justify-content: center;
+}
+
+.search-icon {
+  margin: 0px 10px;
+  opacity: 0.8;
+}
+
+.close-icon{
+  //border: 1px dotted red;
+  margin-left: 10px;
+  padding: 0px 15px;
+  cursor: pointer;
+}
+.options-icon {
+  //border: 1px dotted red;
+  display: flex;
+  width: 30px;
+  height: 48px;
+  justify-content: center;
+  cursor: pointer;
+}
