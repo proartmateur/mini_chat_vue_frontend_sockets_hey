@@ -2,18 +2,12 @@
   <div id="chat-messages-view" class="chat-messages-view">
     <template v-for="message in messages">
       <ChatMessageBubble
-          type="out"
+          :type="message.type"
           :title="message.user"
           :content="message.content"
           :time="message.time"
       ></ChatMessageBubble>
 
-      <ChatMessageBubble
-          type="in"
-          :title="message.user"
-          :content="message.content"
-          :time="message.time"
-      ></ChatMessageBubble>
 
     </template>
   </div>
@@ -37,14 +31,6 @@ export default {
     messages: Array
   },
   mounted() {
-    this.messages.push({
-      content: "Hola MSFG ñakdsjf añlsdjf añlsdkf asd fañlsdk falkjsd fañl ña sdlkfa sdñf aklsd fñasldk a añs dflkaj sdfñlkaj sda sdlkfj añsldfkj añsldkfj a añs dlkfj aslkdf añs dñfkjla sdlkf asñldkjf ",
-      date: "",
-      id: "adsfjh0",
-      time: "08:25",
-      type: "out",
-      user: "Enrique Nieto Martínez 123"
-    });
   },
   watch: {
     messages: {

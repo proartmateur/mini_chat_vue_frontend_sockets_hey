@@ -22,6 +22,10 @@ import store from "../../store";
 import Nav from "../layout/Nav.vue";
 import ChatMessagesView from "../ChatMessagesView.vue";
 import ChatUserInputs from "../ChatUserInputs.vue";
+import {MessageFakeRepository} from "../../api/message_fake_repository";
+
+
+const repo = new MessageFakeRepository();
 
 export default {
   name: "Chat",
@@ -36,10 +40,16 @@ export default {
     }
   },
   store,
-  mounted() {
+  async created(){
+    console.log("CHAT: Created()")
+    this.messages = await repo.list()
+  },
+  async mounted() {
+    console.log("CHAT: Mounted()")
     if (!this.$store.getters.getUserName) {
 
     }
+    //this.messages = await repo.list()
   },
   computed: {
     ...mapGetters([
@@ -53,9 +63,11 @@ export default {
     }
   },
   methods: {
-    onEmitMessage: function (e) {
-      console.log(e);
-      this.messages.push(e)
+    onEmitMessage: async function (e) {
+      //console.log(e);
+      //this.messages.push(e)
+      await repo.add(e)
+      this.messages = await repo.list()
     }
   }
 };
