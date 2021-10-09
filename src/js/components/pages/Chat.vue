@@ -76,14 +76,28 @@ export default {
       const {search_query} = e;
       const results = await repo.find(search_query);
       if (results.length > 0) {
-        const bubble = results[results.length - 1]
-        this.$refs["chat-view"].goToBubble(bubble)
+        const bubble = results[results.length - 1];
+        this.$refs["chat-view"].goToBubble(bubble);
+      } else {
+        console.log("DEEP FIND")
+        const deep_results = await repo.findDeep(search_query);
+        console.log(deep_results)
+        const start_bubble = deep_results[deep_results.length - 1]
+        if (deep_results.length > 0) {
+          console.log("messages: ", this.messages.length)
+          this.messages = await repo.listDeep(start_bubble);
+          console.log("messages: ", this.messages.length);
+          setTimeout( ()=>{
+            this.$refs["chat-view"].goToBubble(start_bubble);
+          }, 600 )
+        }
       }
 
       console.group("onFindMessage");
       console.log(e);
       console.log("--------");
       console.log(results);
+
       console.groupEnd();
     }
   }

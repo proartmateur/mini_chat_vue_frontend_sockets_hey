@@ -7,6 +7,7 @@ import {v4 as uuidv4} from "uuid";
 export class MessageFakeRepository {
 
 	#items;
+	#past_items;
 
 	constructor() {
 		this.#items = [
@@ -59,6 +60,56 @@ export class MessageFakeRepository {
 				user: "Usagui"
 			},
 		];
+		this.#past_items = [
+			{
+				id: uuidv4(),
+				content: "Usagui, te amo!",
+				date: "2021-09-18",
+				time: "06:00",
+				type: "out",
+				user: "Enrique Nieto Martínez 123"
+			},
+			{
+				id: uuidv4(),
+				content: "Yo a ti... ya no, pero sigue intentando.",
+				date: "2021-09-18",
+				time: "07:30",
+				type: "in",
+				user: "Usagui"
+			},
+			{
+				id: uuidv4(),
+				content: "No hay problema, al fin que ni quería XD",
+				date: "2021-09-18",
+				time: "07:31",
+				type: "out",
+				user: "Enrique Nieto Martínez 123"
+			},
+			{
+				id: uuidv4(),
+				content: "Si no quieres para qué me ilusionas?",
+				date: "2021-09-18",
+				time: "07:31",
+				type: "in",
+				user: "Usagui"
+			},
+			{
+				id: uuidv4(),
+				content: "Entonces si quieres también?",
+				date: "2021-09-18",
+				time: "07:32",
+				type: "out",
+				user: "Enrique Nieto Martínez 123"
+			},
+			{
+				id: uuidv4(),
+				content: "Obvio menso, pero me haces enojar algunas ocasiones, también te amo pero de lejitos",
+				date: "2021-09-18",
+				time: "07:32",
+				type: "in",
+				user: "Usagui"
+			},
+		];
 	}
 
 	async add(message) {
@@ -76,8 +127,18 @@ export class MessageFakeRepository {
 		return [...this.#items];
 	}
 
+	async listDeep(start_bubble) {
+		this.#items = [...this.#past_items, ...this.#items]
+		return this.#items
+	}
+
 	async find(text) {
 		return this.#items.filter(x => x.content
+			.toUpperCase().includes(text.toUpperCase()));
+	}
+
+	async findDeep(text) {
+		return this.#past_items.filter(x => x.content
 			.toUpperCase().includes(text.toUpperCase()));
 	}
 
