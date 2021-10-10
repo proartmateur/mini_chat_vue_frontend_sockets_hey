@@ -91,6 +91,7 @@ export default {
       this.messages = await repo.list({user_name});
     },
     onFindMessage: async function (e) {
+      const user_name = this.getUserName;
       const {search_query} = e;
       const results = await repo.find(search_query);
       if (results.length > 0) {
@@ -103,7 +104,7 @@ export default {
         const start_bubble = deep_results[deep_results.length - 1];
         if (deep_results.length > 0) {
           console.log("messages: ", this.messages.length);
-          this.messages = await repo.listDeep(start_bubble);
+          this.messages = await repo.listDeep(start_bubble, user_name);
           console.log("messages: ", this.messages.length);
           setTimeout(() => {
             this.$refs["chat-view"].goToBubble(start_bubble);

@@ -4,6 +4,8 @@
 
 import axios from "axios";
 
+import dayjs from "dayjs";
+
 export class MessageApiRepository {
 
 	#items;
@@ -33,30 +35,10 @@ export class MessageApiRepository {
 		return new Promise(((resolve, reject) => {
 
 			if (this.#items.length === 0) {
-				const url = `${this.#api_url}/messages?page=0&limit=100`;
+				const url = `${this.#api_url}/messages?page=0&limit=5`;
 				axios.get(url)
 					.then((response) => {
-						const data = [...response.data.messages];
-						const with_type = data.map(x => {
-							let type = "in";
-							if (x.user_name.toUpperCase() === user_name.toUpperCase()) {
-								type = "out";
-							}
-
-							return {
-								...x,
-								type
-							};
-						});
-						// this.#items = with_type.sort(function (a, b) {
-						// 	var keyA = new Date(a.timestamp),
-						// 		keyB = new Date(b.timestamp);
-						// 	// Compare the 2 dates
-						// 	if (keyA < keyB) return -1;
-						// 	if (keyA > keyB) return 1;
-						// 	return 0;
-						// });
-						this.#items = with_type.sort((a,b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+						this.#items = this.#sortResultItems([...response.data.messages], user_name);
 						this.#original_items = [...response.data.messages];
 						resolve([...this.#items]);
 					}).catch((error) => {
@@ -72,9 +54,33 @@ export class MessageApiRepository {
 
 	}
 
-	async listDeep(start_bubble) {
+	#sortResultItems(items, user_name) {
+		const data = [...items];
+		const with_type = data.map(x => {
+			let type = "in";
+			if (x.user_name.toUpperCase() === user_name.toUpperCase()) {
+				type = "out";
+			}
+
+			return {
+				...x,
+				type
+			};
+		});
+		return with_type.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+	}
+
+	async listDeep(start_bubble, user_name) {
 		const past_items = await this.findByDate(start_bubble.date);
-		this.#items = [...past_items, ...this.#items];
+		const now = dayjs().format("YYYY-MM-DD");
+		const is_today = now === start_bubble.date;
+		const sorted_past_items = this.#sortResultItems(past_items, user_name);
+
+		if (is_today) {
+			this.#items = [...sorted_past_items];
+		} else {
+			this.#items = [...sorted_past_items, ...this.#items];
+		}
 		return this.#items;
 	}
 
