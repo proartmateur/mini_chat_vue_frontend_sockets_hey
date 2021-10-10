@@ -12,40 +12,27 @@ import router from "./js/routes";
 import VueSocketIOExt from "vue-socket.io-extended";
 import {io} from "socket.io-client";
 
-const socket = io("http://localhost:3009");
+const socket = io(app_config.socket_api_url);
 
 Vue.use(VueSocketIOExt, socket, { store });
 
 import Vuelidate from "vuelidate";
-
 Vue.use(Vuelidate);
 Vue.config.productionTip = false;
 //endregion
 
 //region Bootstrap Vue
 
-import {BootstrapVue, IconsPlugin} from "bootstrap-vue";
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import {
-	TablePlugin,
-	FormTimepickerPlugin,
-	FormDatepickerPlugin,
-	FormSelectPlugin,
-	FormRadioPlugin,
 	NavPlugin
 } from "bootstrap-vue";
 
 Vue.use(NavPlugin);
 
-Vue.use(TablePlugin);
-Vue.use(FormTimepickerPlugin);
-Vue.use(FormDatepickerPlugin);
-Vue.use(FormDatepickerPlugin);
-Vue.use(FormSelectPlugin);
-Vue.use(FormRadioPlugin);
 import "bootstrap-vue/dist/bootstrap-vue.css";
 //endregion
 
@@ -54,11 +41,12 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import "./styles/main.scss";
 
 import App from "./js/components/App.vue";
+import app_config from "./js/utils/config";
 
 //endregion
 
-const tramites = new Vue({
-	el: "#app_tramites",
+const chat_app = new Vue({
+	el: "#chat_app",
 	data: {
 		hi: "asd"
 	},
@@ -72,8 +60,6 @@ const tramites = new Vue({
 			console.log("CHAT socket connected");
 		},
 		new_chat_message(val) {
-			console.log(val)
-			console.log("CHAT this method was fired by the socket server. eg: io.emit(\"customEmit\", data)");
 		}
 	},
 

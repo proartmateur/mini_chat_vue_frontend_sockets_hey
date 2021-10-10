@@ -12,10 +12,6 @@
         @sendMessage="onEmitMessage"
     >
     </ChatUserInputs>
-    <!--    <template v-if="enable_chat">-->
-    <!--      <p>chateando...</p>-->
-    <!--    </template>-->
-    <!--    <p v-else>Debes iniciar sesion para participar!</p>-->
   </div>
 
 </template>
@@ -27,11 +23,11 @@ import store from "../../store";
 import Nav from "../layout/Nav.vue";
 import ChatMessagesView from "../ChatMessagesView.vue";
 import ChatUserInputs from "../ChatUserInputs.vue";
-import {MessageFakeRepository} from "../../api/message_fake_repository";
 import {MessageApiRepository} from "../../api/message_api_repository";
+import app_config from "../../utils/config";
 
 
-const url = "http://localhost:3009/hey/api";
+const url = app_config.socket_api_url + app_config.rest_api_path;
 
 const repo = new MessageApiRepository(url);
 
@@ -55,15 +51,12 @@ export default {
 
   },
   async mounted() {
-    console.log("CHAT: Mounted()");
     if (!this.$store.getters.getUserName) {
       this.$router.push("/");
     }
 
     setTimeout(async () => {
-
       const user_name = this.getUserName;
-      console.log("Chat mounted()", user_name);
       this.user_display = user_name;
       this.messages = await repo.list({user_name});
     }, 200);
@@ -74,13 +67,7 @@ export default {
     ...mapGetters([
       "getUserName",
       "getMessages"
-    ]),
-    enable_chat: function () {
-      if (!this.getUserName) {
-        return false;
-      }
-      return true;
-    }
+    ])
   },
   watch: {
     getMessages: async function (newVal) {
@@ -105,39 +92,30 @@ export default {
       this.messages = await repo.list({user_name});
     },
     onFindMessage: async function (e) {
-      const user_name = this.getUserName;
       const {search_query} = e;
       const results = await repo.find(search_query);
       if (results.length > 0) {
         const bubble = results[results.length - 1];
         this.$refs["chat-view"].goToBubble(bubble);
       } else {
-        console.log("DEEP FIND");
-        const deep_results = await repo.findDeep(search_query);
-        console.log(deep_results);
-        const start_bubble = deep_results[deep_results.length - 1];
-        if (deep_results.length > 0) {
-          console.log("messages: ", this.messages.length);
-          this.messages = await repo.listDeep(start_bubble, user_name);
-          console.log("messages: ", this.messages.length);
-          setTimeout(() => {
-            this.$refs["chat-view"].goToBubble(start_bubble);
-          }, 600);
-        }
+        this.findInThePast(search_query);
       }
-
-      console.group("onFindMessage");
-      console.log(e);
-      console.log("--------");
-      console.log(results);
-
-      console.groupEnd();
     },
     isMessageOwn: function (message) {
       if (message.user_name.toUpperCase() === this.getUserName.toUpperCase()) {
         return true;
       }
       return false;
+    },
+    findInThePast: async function (search_query) {
+      const deep_results = await repo.findDeep(search_query);
+      const start_bubble = deep_results[deep_results.length - 1];
+      if (deep_results.length > 0) {
+        this.messages = await repo.listDeep(start_bubble, this.getUserName);
+        setTimeout(() => {
+          this.$refs["chat-view"].goToBubble(start_bubble);
+        }, 600);
+      }
     }
   },
 
