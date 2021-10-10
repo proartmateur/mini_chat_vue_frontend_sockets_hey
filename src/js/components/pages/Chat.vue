@@ -3,6 +3,7 @@
     <Nav
         @findMessage="onFindMessage"
     ></Nav>
+    <p v-if="false">{{ getMessages.length }} {{ getMessages[0] }}</p>
     <ChatMessagesView
         ref="chat-view"
         :messages="messages"
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+
 import {mapGetters} from "vuex";
 import store from "../../store";
 import Nav from "../layout/Nav.vue";
@@ -66,10 +68,12 @@ export default {
       this.messages = await repo.list({user_name});
     }, 200);
 
+
   },
   computed: {
     ...mapGetters([
       "getUserName",
+      "getMessages"
     ]),
     enable_chat: function () {
       if (!this.getUserName) {
@@ -78,7 +82,25 @@ export default {
       return true;
     }
   },
+  watch: {
+    getMessages: function (newVal) {
+      console.log("NUEVO CHAT DESDE FUERA");
+      console.log(newVal);
+      if (newVal.length > 0) {
+        const last_index = newVal.length - 1;
+        let last_message = {...newVal[last_index]};
+        console.log("Last Socket message:");
+        console.log(last_message.type);
 
+        if (!this.isMessageOwn(last_message)) {
+          last_message.type = "in";
+        }
+        console.log(last_message.type);
+
+
+      }
+    }
+  },
   methods: {
     onEmitMessage: async function (e) {
       //console.log(e);
@@ -118,8 +140,15 @@ export default {
       console.log(results);
 
       console.groupEnd();
+    },
+    isMessageOwn: function (message) {
+      if (message.user_name.toUpperCase() === this.getUserName.toUpperCase()) {
+        return true;
+      }
+      return false;
     }
-  }
+  },
+
 };
 </script>
 
