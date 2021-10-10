@@ -14,7 +14,6 @@ export class MessageApiRepository {
 
 	constructor(api_url) {
 		this.#items = [];
-		this.#original_items = [];
 		this.#api_url = api_url;
 	}
 
@@ -39,11 +38,10 @@ export class MessageApiRepository {
 		return new Promise(((resolve, reject) => {
 
 			if (this.#items.length === 0) {
-				const url = `${this.#api_url}/messages?page=0&limit=5`;
+				const url = `${this.#api_url}/messages?page=0&limit=15`;
 				axios.get(url)
 					.then((response) => {
 						this.#items = this.#sortResultItems([...response.data.messages], user_name);
-						this.#original_items = [...response.data.messages];
 						resolve([...this.#items]);
 					}).catch((error) => {
 
