@@ -37,7 +37,7 @@ export default {
           content: this.current_message,
           time: dayjs().format('HH:mm') ,
           date: dayjs().format('YYYY-MM-DD'),
-          user: this.getUserName,
+          user_name: this.getUserName,
           type: "out"
         })
         this.current_message = null;

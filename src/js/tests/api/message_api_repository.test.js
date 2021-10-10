@@ -8,13 +8,29 @@ it("List", async () => {
 	const url = "http://localhost:3009/hey/api";
 
 	const repo = new MessageApiRepository(url);
-	const messages = await repo.list();
-	const messages2 = await repo.list();
-	const messages3 = await repo.list();
+	const user_name = "JEST User";
+	const messages = await repo.list({user_name});
+	const messages2 = await repo.list({user_name});
+	const messages3 = await repo.list({user_name});
 
+	console.log(messages[0])
 	expect(messages.length).toBeGreaterThanOrEqual(3);
 	expect(messages2.length).toBeGreaterThanOrEqual(3);
 	expect(messages3.length).toBeGreaterThanOrEqual(3);
+
+});
+
+it("List Single", async () => {
+	const url = "http://localhost:3009/hey/api";
+
+	const repo = new MessageApiRepository(url);
+	const user_name = "Mamoru";
+	const messages = await repo.list({user_name});
+
+
+	console.log(messages)
+	expect(messages.length).toBeGreaterThanOrEqual(3);
+
 
 });
 
@@ -64,7 +80,7 @@ it("Find", async () => {
 });
 
 
-it("Find Deep",     async () => {
+it("Find Deep", async () => {
 	const url = "http://localhost:3009/hey/api";
 
 	const repo = new MessageApiRepository(url);
@@ -86,7 +102,7 @@ it("Find Deep",     async () => {
 });
 
 
-it("Find Date",     async () => {
+it("Find Date", async () => {
 	const url = "http://localhost:3009/hey/api";
 
 	const repo = new MessageApiRepository(url);

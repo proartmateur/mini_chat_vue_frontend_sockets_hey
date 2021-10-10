@@ -4,7 +4,7 @@
       <ChatMessageBubble
           :id="'bubble_'+message.id.replaceAll('-','')"
           :type="message.type"
-          :title="message.user"
+          :title="message.user_name"
           :content="message.content"
           :time="message.time"
       ></ChatMessageBubble>
