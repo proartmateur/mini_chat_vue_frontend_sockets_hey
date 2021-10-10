@@ -29,6 +29,10 @@ export class MessageApiRepository {
 		});
 	}
 
+	async addFormSocket(message) {
+		this.#items.push({...message});
+	}
+
 	list({user_name}) {
 		console.log("--> LIST():");
 		console.log(user_name);

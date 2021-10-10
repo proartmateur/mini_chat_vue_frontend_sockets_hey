@@ -83,28 +83,20 @@ export default {
     }
   },
   watch: {
-    getMessages: function (newVal) {
-      console.log("NUEVO CHAT DESDE FUERA");
-      console.log(newVal);
+    getMessages: async function (newVal) {
       if (newVal.length > 0) {
         const last_index = newVal.length - 1;
         let last_message = {...newVal[last_index]};
-        console.log("Last Socket message:");
-        console.log(last_message.type);
-
         if (!this.isMessageOwn(last_message)) {
           last_message.type = "in";
+          await repo.addFormSocket(last_message);
+          this.messages = await repo.list({user_name: this.getUserName});
         }
-        console.log(last_message.type);
-
-
       }
     }
   },
   methods: {
     onEmitMessage: async function (e) {
-      //console.log(e);
-      //this.messages.push(e)
       const user_name = this.getUserName;
       if (!e.user) {
         e["user"] = user_name;
