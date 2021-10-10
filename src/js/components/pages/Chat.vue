@@ -26,9 +26,12 @@ import Nav from "../layout/Nav.vue";
 import ChatMessagesView from "../ChatMessagesView.vue";
 import ChatUserInputs from "../ChatUserInputs.vue";
 import {MessageFakeRepository} from "../../api/message_fake_repository";
+import {MessageApiRepository} from "../../api/message_api_repository";
 
 
-const repo = new MessageFakeRepository();
+const url = "http://localhost:3009/hey/api";
+
+	const repo = new MessageApiRepository(url);
 
 export default {
   name: "Chat",

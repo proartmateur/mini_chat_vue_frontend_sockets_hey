@@ -11,7 +11,7 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import * as dayjs from 'dayjs'
+import * as dayjs from "dayjs";
 import {mapGetters} from "vuex";
 
 import {MessageFakeRepository} from "../api/message_fake_repository";
