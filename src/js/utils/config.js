@@ -3,7 +3,7 @@
  */
 
 const app_config = {
-	socket_api_url: "http://localhost:3009",
+	socket_api_url: "http://localhost",
 	rest_api_path:"/hey/api"
 };
 
